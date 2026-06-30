@@ -310,10 +310,6 @@ class Neo_Beam:   #演習課題6
 
         return beams
 #追加機能４：無敵状態
-
-
-
-
 class Life(pg.sprite.Sprite):
 
     def __init__(self, num: int):
@@ -349,7 +345,6 @@ def main():
         key_lst = pg.key.get_pressed()
         for event in pg.event.get():
             if event.type == pg.QUIT:
-
                 return
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_SPACE:
@@ -377,7 +372,6 @@ def main():
 
         screen.blit(bg_img, [0, 0])
 
-        screen.blit(bg_img, [0, 0])
         if tmr%200 == 0:  # 200フレームに1回，敵機を出現させる
             emys.add(Enemy())
 
