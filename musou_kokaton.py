@@ -261,6 +261,22 @@ class EMP:
         time.sleep(0.05)
 
 
+class Life(pg.sprite.Sprite):
+
+    def __init__(self, num: int):
+        self.num = num
+        self.life_img = pg.Surface((40, 40))
+        self.life_img.set_colorkey((0, 0, 0))
+        points = [(16*math.sin(t/100)**3 +20, -(13*math.cos(t/100)-5*math.cos(2*t/100)-2*math.cos(3*t/100)-math.cos(4*t/100)) +20) for t in range(0, 628) ]
+        pg.draw.polygon(self.life_img, (255, 0, 0), points)
+
+    def update(self, screen: pg.Surface):
+        for i in range(self.num):
+            x = (WIDTH - 50 - 20) - (i * 40)
+            y = HEIGHT - 50 - 20
+            screen.blit(self.life_img, (x, y))
+
+
 def main():
     pg.display.set_caption("真！こうかとん無双")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -275,6 +291,7 @@ def main():
 
     tmr = 0
     clock = pg.time.Clock()
+    life = Life(3)
     while True:
         key_lst = pg.key.get_pressed()
         for event in pg.event.get():
@@ -313,8 +330,12 @@ def main():
             bird.change_img(8, screen)  # こうかとん悲しみエフェクト
             score.update(screen)
             pg.display.update()
-            time.sleep(2)
-            return
+            life.num -= 1
+            if life.num == 0:
+                time.sleep(2)
+                return
+            else:
+                time.sleep(0.5)
 
         bird.update(key_lst, screen)
         beams.update()
@@ -326,6 +347,7 @@ def main():
         exps.update()
         exps.draw(screen)
         score.update(screen)
+        life.update(screen)
         pg.display.update()
         tmr += 1
         clock.tick(50)
